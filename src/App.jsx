@@ -9,22 +9,23 @@ import OutputVerification from './components/OutputVerification'
 function App() {
   const [currentStep, setCurrentStep] = useState(1)
   const [userPrompt, setUserPrompt] = useState('')
-  const [decision, setDecision] = useState(null) 
+  const [decision, setDecision] = useState(null)
+  const [riskTier, setRiskTier] = useState(null)
 
-  // Reset function for "Start New Demo"
   const handleRestart = () => {
     setCurrentStep(1)
     setUserPrompt('')
-    setDecision(null) // ← RESET decision
+    setDecision(null)
+    setRiskTier(null)
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 p-4 md:p-8">
       
       <Header />
       <ProgressBar currentStep={currentStep} />
 
-      <div className="max-w-6xl mx-auto bg-slate-800/50 backdrop-blur rounded-xl p-8 border border-slate-700">
+      <div className="max-w-6xl mx-auto bg-slate-800/50 backdrop-blur rounded-xl p-4 md:p-8 border border-slate-700">
         
         {/* Screen 1: Employee Portal */}
         {currentStep === 1 && (
@@ -39,7 +40,8 @@ function App() {
         {currentStep === 2 && (
           <RiskAnalysis
             prompt={userPrompt}
-            onNext={() => setCurrentStep(3)}
+            onNext={(tier) => { setRiskTier(tier); setCurrentStep(3) }}
+            onAutoApprove={() => setCurrentStep(4)}
             onBack={() => setCurrentStep(1)}
           />
         )}
@@ -48,7 +50,8 @@ function App() {
         {currentStep === 3 && (
           <HumanReview
             prompt={userPrompt}
-            onNext={(selectedDecision) => {  // ← RECEIVE decision from HumanReview
+            riskTier={riskTier}
+            onNext={(selectedDecision) => {
               setDecision(selectedDecision)
               setCurrentStep(4)
             }}

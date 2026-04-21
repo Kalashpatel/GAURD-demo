@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { User, Clock, Shield, CheckCircle, Ban, Fingerprint } from 'lucide-react'
 import Button from './Button'
 
-function HumanReview({ prompt, onNext, onBack }) {
+function HumanReview({ prompt, riskTier, onNext, onBack }) {
     // State management
     const [timeRemaining, setTimeRemaining] = useState(60 * 60) // 60 minutes in seconds
     const [showBiometric, setShowBiometric] = useState(false)
@@ -95,7 +95,19 @@ function HumanReview({ prompt, onNext, onBack }) {
         }, 2000)
     }
 
-    // Mock data
+    const aiRecommendations = {
+        medium: {
+            action: 'Approve After Review',
+            confidence: 78,
+            reasoning: 'Some sensitive data detected but employee is authorized. Risk level is moderate — officer should verify context and approve if appropriate.',
+        },
+        high: {
+            action: 'Tokenize & Block',
+            confidence: 94,
+            reasoning: 'Critical PII + financial data + account numbers detected. Recommend blocking original prompt. Employee must use tokenized version or request explicit data access approval.',
+        },
+    }
+
     const caseData = {
         id: 'CASE-12789',
         timestamp: new Date().toLocaleString(),
@@ -105,11 +117,7 @@ function HumanReview({ prompt, onNext, onBack }) {
             department: 'Retail Banking',
             authorized: true,
         },
-        aiRecommendation: {
-            action: 'Tokenize & Approve',
-            confidence: 87,
-            reasoning: 'Employee is authorized to access this customer. Recommend sanitizing data before sending to ChatGPT.',
-        },
+        aiRecommendation: aiRecommendations[riskTier] || aiRecommendations.high,
     }
 
     return (
@@ -120,7 +128,7 @@ function HumanReview({ prompt, onNext, onBack }) {
             </h2>
 
             {/* Officer Info Panel */}
-            <div className="bg-gradient-to-r from-purple-900/30 to-blue-900/30 rounded-lg p-4 mb-6 flex items-center justify-between border border-purple-600/30">
+            <div className="bg-gradient-to-r from-purple-900/30 to-blue-900/30 rounded-lg p-4 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border border-purple-600/30">
                 <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center">
                         <User className="w-6 h-6" />
@@ -141,7 +149,7 @@ function HumanReview({ prompt, onNext, onBack }) {
             </div>
 
             {/* Case Information */}
-            <div className="grid grid-cols-3 gap-4 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
                 <div className="bg-slate-900 rounded-lg p-4">
                     <p className="text-xs text-gray-500 mb-1">Case ID</p>
                     <p className="font-mono text-lg font-semibold text-white">{caseData.id}</p>
@@ -167,7 +175,7 @@ function HumanReview({ prompt, onNext, onBack }) {
                     <User className="w-5 h-5 text-blue-400" />
                     Employee Context
                 </h3>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <p className="text-xs text-gray-500">Name</p>
                         <p className="font-semibold text-white">{caseData.employee.name}</p>
@@ -223,7 +231,7 @@ function HumanReview({ prompt, onNext, onBack }) {
 
                 {/* Decision Buttons */}
                 {!showBiometric ? (
-                    <div className="grid grid-cols-3 gap-4 mb-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
                         <button
                             onClick={() => handleAction('approve')}
                             className="bg-green-600 hover:bg-green-700 p-6 rounded-lg transition flex flex-col items-center gap-2"
