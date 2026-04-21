@@ -56,7 +56,7 @@ function RiskAnalysis({ prompt, onNext, onAutoApprove, onBack }) {
     }, 2000)
 
     return () => clearTimeout(scanTimer)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, [])
 
   // Animate score counter once targetScore is set
@@ -131,7 +131,7 @@ function RiskAnalysis({ prompt, onNext, onAutoApprove, onBack }) {
 
   return (
     <div>
-      <h2 className="text-xl md:text-2xl font-bold mb-6 flex items-center gap-2">
+      <h2 className="text-xl md:text-2xl text-white font-bold mb-6 flex items-center gap-2">
         <AlertTriangle className="w-6 h-6 text-yellow-400" />
         Real-Time Risk Analysis Engine
       </h2>
@@ -190,7 +190,7 @@ function RiskAnalysis({ prompt, onNext, onAutoApprove, onBack }) {
 
           {/* Risk Score */}
           <div className="bg-slate-900 rounded-lg p-6 mb-6">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center text-white justify-between mb-4">
               <h3 className="text-lg font-semibold">Overall Risk Score</h3>
               <span className={`text-4xl font-bold
                 ${riskScore >= 70 ? 'text-red-400' : riskScore >= 30 ? 'text-yellow-400' : 'text-green-400'}`}>
@@ -214,7 +214,7 @@ function RiskAnalysis({ prompt, onNext, onAutoApprove, onBack }) {
 
           {/* Risk Factor Breakdown */}
           {showBreakdown && (
-            <div className="bg-slate-900 rounded-lg p-6 mb-6 animate-fadeIn">
+            <div className="bg-slate-900 text-white rounded-lg p-6 mb-6 animate-fadeIn">
               <h3 className="text-lg font-semibold mb-4">Risk Factor Breakdown</h3>
               <div className="space-y-4">
                 {riskFactors.map((factor, i) => {
@@ -227,7 +227,7 @@ function RiskAnalysis({ prompt, onNext, onAutoApprove, onBack }) {
                           <span className="text-sm text-gray-300">{factor.name}</span>
                           <span className="text-xs text-gray-500">({factor.weight}% weight)</span>
                         </div>
-                        <span className="text-sm font-semibold">{factor.score}/100</span>
+                        <span className="text-sm font-semibold text-white">{factor.score}/100</span>
                       </div>
                       <div className="w-full bg-gray-700 rounded-full h-2">
                         <div
