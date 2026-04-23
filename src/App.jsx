@@ -8,13 +8,13 @@ import OutputVerification from './components/OutputVerification'
 
 function App() {
   const [currentStep, setCurrentStep] = useState(1)
-  const [userPrompt, setUserPrompt] = useState('')
+  const [userPrompt, setUserPrompt] = useState('Create a portfolio summary for Rajesh Kumar, account 9876543210, with ₹45 lakh investment in equity funds.')
   const [decision, setDecision] = useState(null)
   const [riskTier, setRiskTier] = useState(null)
 
   const handleRestart = () => {
     setCurrentStep(1)
-    setUserPrompt('')
+    setUserPrompt('Create a portfolio summary for Rajesh Kumar, account 9876543210, with ₹45 lakh investment in equity funds.')
     setDecision(null)
     setRiskTier(null)
   }
